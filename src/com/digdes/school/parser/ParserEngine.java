@@ -77,45 +77,45 @@ public class ParserEngine
         outWord = false;
         if(ch == 's' || ch == 'S')
         {
-            currentCharCaseInsEqAndDoNextChar('s',"Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
-            currentCharCaseInsEqAndDoNextChar('e',"Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
-            currentCharCaseInsEqAndDoNextChar('l', "Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
-            currentCharCaseInsEqAndDoNextChar('e', "Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
-            currentCharCaseInsEqAndDoNextChar('c', "Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
-            currentCharCaseInsEqAndDoNextChar('t', "Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
+            currentCharCaseInsensitiveEqCharacterAndDoNextChar('s',"Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
+            currentCharCaseInsensitiveEqCharacterAndDoNextChar('e',"Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
+            currentCharCaseInsensitiveEqCharacterAndDoNextChar('l', "Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
+            currentCharCaseInsensitiveEqCharacterAndDoNextChar('e', "Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
+            currentCharCaseInsensitiveEqCharacterAndDoNextChar('c', "Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
+            currentCharCaseInsensitiveEqCharacterAndDoNextChar('t', "Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
             this.result.operator = SqlOperator.SELECT;
         }
         //update
         else if(ch == 'u' || ch == 'U')
         {
-            currentCharCaseInsEqAndDoNextChar('u',"Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
-            currentCharCaseInsEqAndDoNextChar('p',"Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
-            currentCharCaseInsEqAndDoNextChar('d', "Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
-            currentCharCaseInsEqAndDoNextChar('a', "Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
-            currentCharCaseInsEqAndDoNextChar('t', "Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
-            currentCharCaseInsEqAndDoNextChar('e', "Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
+            currentCharCaseInsensitiveEqCharacterAndDoNextChar('u',"Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
+            currentCharCaseInsensitiveEqCharacterAndDoNextChar('p',"Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
+            currentCharCaseInsensitiveEqCharacterAndDoNextChar('d', "Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
+            currentCharCaseInsensitiveEqCharacterAndDoNextChar('a', "Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
+            currentCharCaseInsensitiveEqCharacterAndDoNextChar('t', "Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
+            currentCharCaseInsensitiveEqCharacterAndDoNextChar('e', "Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
             this.result.operator = SqlOperator.UPDATE;
         }
         //insert
         else if(ch == 'i' || ch == 'I')
         {
-            currentCharCaseInsEqAndDoNextChar('i',"Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
-            currentCharCaseInsEqAndDoNextChar('n',"Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
-            currentCharCaseInsEqAndDoNextChar('s', "Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
-            currentCharCaseInsEqAndDoNextChar('e', "Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
-            currentCharCaseInsEqAndDoNextChar('r', "Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
-            currentCharCaseInsEqAndDoNextChar('t', "Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
+            currentCharCaseInsensitiveEqCharacterAndDoNextChar('i',"Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
+            currentCharCaseInsensitiveEqCharacterAndDoNextChar('n',"Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
+            currentCharCaseInsensitiveEqCharacterAndDoNextChar('s', "Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
+            currentCharCaseInsensitiveEqCharacterAndDoNextChar('e', "Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
+            currentCharCaseInsensitiveEqCharacterAndDoNextChar('r', "Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
+            currentCharCaseInsensitiveEqCharacterAndDoNextChar('t', "Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
             this.result.operator = SqlOperator.INSERT;
         }
         //delete
         else if(ch == 'd' || ch == 'D')
         {
-            currentCharCaseInsEqAndDoNextChar('d',"Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
-            currentCharCaseInsEqAndDoNextChar('e',"Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
-            currentCharCaseInsEqAndDoNextChar('l', "Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
-            currentCharCaseInsEqAndDoNextChar('e', "Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
-            currentCharCaseInsEqAndDoNextChar('t', "Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
-            currentCharCaseInsEqAndDoNextChar('e', "Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
+            currentCharCaseInsensitiveEqCharacterAndDoNextChar('d',"Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
+            currentCharCaseInsensitiveEqCharacterAndDoNextChar('e',"Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
+            currentCharCaseInsensitiveEqCharacterAndDoNextChar('l', "Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
+            currentCharCaseInsensitiveEqCharacterAndDoNextChar('e', "Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
+            currentCharCaseInsensitiveEqCharacterAndDoNextChar('t', "Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
+            currentCharCaseInsensitiveEqCharacterAndDoNextChar('e', "Ошибка валидации: Не удалось распознать наименование оператора (SELECT | INSERT | UPDATE | DELETE");
             this.result.operator = SqlOperator.DELETE;
         }
         else
@@ -133,14 +133,14 @@ public class ParserEngine
     }
     private void expectedVALUES()
     {
-        currentCharCaseInsEqAndDoNextChar('v',"Ошибка валидации: ожидалось 'values' (SELECT | INSERT | UPDATE | DELETE");
-        currentCharCaseInsEqAndDoNextChar('a', "Ошибка валидации: ожидалось 'values' (SELECT | INSERT | UPDATE | DELETE");
-        currentCharCaseInsEqAndDoNextChar('l', "Ошибка валидации: ожидалось 'values' (SELECT | INSERT | UPDATE | DELETE");
-        currentCharCaseInsEqAndDoNextChar('u',"Ошибка валидации: ожидалось 'values' (SELECT | INSERT | UPDATE | DELETE");
-        currentCharCaseInsEqAndDoNextChar('e', "Ошибка валидации: ожидалось 'values' (SELECT | INSERT | UPDATE | DELETE");
-        currentCharCaseInsEqAndDoNextChar('s', "Ошибка валидации: ожидалось 'values' (SELECT | INSERT | UPDATE | DELETE");
+        currentCharCaseInsensitiveEqCharacterAndDoNextChar('v',"Ошибка валидации: ожидалось 'values' (SELECT | INSERT | UPDATE | DELETE");
+        currentCharCaseInsensitiveEqCharacterAndDoNextChar('a', "Ошибка валидации: ожидалось 'values' (SELECT | INSERT | UPDATE | DELETE");
+        currentCharCaseInsensitiveEqCharacterAndDoNextChar('l', "Ошибка валидации: ожидалось 'values' (SELECT | INSERT | UPDATE | DELETE");
+        currentCharCaseInsensitiveEqCharacterAndDoNextChar('u',"Ошибка валидации: ожидалось 'values' (SELECT | INSERT | UPDATE | DELETE");
+        currentCharCaseInsensitiveEqCharacterAndDoNextChar('e', "Ошибка валидации: ожидалось 'values' (SELECT | INSERT | UPDATE | DELETE");
+        currentCharCaseInsensitiveEqCharacterAndDoNextChar('s', "Ошибка валидации: ожидалось 'values' (SELECT | INSERT | UPDATE | DELETE");
     }
-    private boolean currentCharCaseInsEqAndDoNextChar(Character character, String errorMessage)
+    private boolean currentCharCaseInsensitiveEqCharacterAndDoNextChar(Character character, String errorMessage)
     {
         if(this.ch == null)
             throw new RuntimeException(errorMessage);
@@ -194,7 +194,7 @@ public class ParserEngine
     {
         String firstColumnName = columnName();
         space();
-        currentCharCaseInsEqAndDoNextChar('=', "Ошибка валидации (после VALUES)");
+        currentCharCaseInsensitiveEqCharacterAndDoNextChar('=', "Ошибка валидации (после VALUES)");
         space();
         Operand firstOperand = getOperand();
         if(!result.valuesMapHasKey(firstColumnName))
@@ -204,11 +204,11 @@ public class ParserEngine
         while(ch != null && ch != 'w')
         {
             space();
-            currentCharCaseInsEqAndDoNextChar(',',"");
+            currentCharCaseInsensitiveEqCharacterAndDoNextChar(',',"");
             space();
             String columnName = columnName();
             space();
-            currentCharCaseInsEqAndDoNextChar('=', "Ошибка валидации (после VALUES)");
+            currentCharCaseInsensitiveEqCharacterAndDoNextChar('=', "Ошибка валидации (после VALUES)");
             space();
             Operand operand = getOperand();
             if(!result.valuesMapHasKey(columnName))
@@ -355,17 +355,17 @@ public class ParserEngine
         String booleanValue = null;
         if(ch == 't' || ch == 'T')
         {
-            currentCharCaseInsEqAndDoNextChar('r',"");
-            currentCharCaseInsEqAndDoNextChar('u',"");
-            currentCharCaseInsEqAndDoNextChar('e',"");
+            currentCharCaseInsensitiveEqCharacterAndDoNextChar('r',"");
+            currentCharCaseInsensitiveEqCharacterAndDoNextChar('u',"");
+            currentCharCaseInsensitiveEqCharacterAndDoNextChar('e',"");
             booleanValue = "true";
         }
         else if(ch == 'f' || ch == 'F')
         {
-            currentCharCaseInsEqAndDoNextChar('a',"");
-            currentCharCaseInsEqAndDoNextChar('l',"");
-            currentCharCaseInsEqAndDoNextChar('s',"");
-            currentCharCaseInsEqAndDoNextChar('e',"");
+            currentCharCaseInsensitiveEqCharacterAndDoNextChar('a',"");
+            currentCharCaseInsensitiveEqCharacterAndDoNextChar('l',"");
+            currentCharCaseInsensitiveEqCharacterAndDoNextChar('s',"");
+            currentCharCaseInsensitiveEqCharacterAndDoNextChar('e',"");
             booleanValue = "false";
         }
         else
@@ -378,10 +378,22 @@ public class ParserEngine
 
     private String expectedNull()
     {
-        currentCharCaseInsEqAndDoNextChar('n',"");
-        currentCharCaseInsEqAndDoNextChar('u',"");
-        currentCharCaseInsEqAndDoNextChar('l',"");
-        currentCharCaseInsEqAndDoNextChar('l',"");
+        currentCharCaseInsensitiveEqCharacterAndDoNextChar('n',"");
+        currentCharCaseInsensitiveEqCharacterAndDoNextChar('u',"");
+        currentCharCaseInsensitiveEqCharacterAndDoNextChar('l',"");
+        currentCharCaseInsensitiveEqCharacterAndDoNextChar('l',"");
         return "null";
+    }
+    private boolean sqlOperatorIsInsert()
+    {
+        return result.operator.equals(SqlOperator.INSERT);
+    }
+    private void expectedWhere()
+    {
+        currentCharCaseInsensitiveEqCharacterAndDoNextChar('w',"Ожидалось 'WHERE'");
+        currentCharCaseInsensitiveEqCharacterAndDoNextChar('h',"Ожидалось 'WHERE'");
+        currentCharCaseInsensitiveEqCharacterAndDoNextChar('e',"Ожидалось 'WHERE'");
+        currentCharCaseInsensitiveEqCharacterAndDoNextChar('r',"Ожидалось 'WHERE'");
+        currentCharCaseInsensitiveEqCharacterAndDoNextChar('e',"Ожидалось 'WHERE'");
     }
 }
