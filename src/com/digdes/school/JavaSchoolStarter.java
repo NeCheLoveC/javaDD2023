@@ -32,6 +32,13 @@ public class JavaSchoolStarter implements Table
         return formedQuery.execute(this);
     }
 
+    @Override
+    public boolean existColumn(String columnName) {
+        return structure.containsKey(columnName);
+    }
 
-
+    public Class getColumnTypeByName(String columnName)
+    {
+        return structure.get(columnName);
+    }
 }

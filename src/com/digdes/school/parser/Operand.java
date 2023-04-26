@@ -1,13 +1,8 @@
 package com.digdes.school.parser;
 
-public class Operand
-{
-    private String value;
-    private Class typeValue;
+import com.digdes.school.Table;
 
-    public Operand(String value, Class typeValue)
-    {
-        this.value = value;
-        this.typeValue = typeValue;
-    }
+public interface Operand
+{
+    public Class getType(Table table);
 }

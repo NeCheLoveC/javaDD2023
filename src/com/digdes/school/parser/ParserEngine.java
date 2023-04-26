@@ -1,16 +1,24 @@
 package com.digdes.school.parser;
 
+import com.digdes.school.d.TypeOperator;
 import com.digdes.school.utils.SqlOperator;
 
 import javax.lang.model.type.NullType;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Stack;
 
 public class ParserEngine
 {
     private Character ch = null;
+    private Character previousChar = null;
     private String query;
     private int id = -1;
     boolean outWord = true;
     private ParsingResult result = new ParsingResult();
+
+    private Stack<PartOfCondition> operatorsStack = new Stack<>();
+    private List<PartOfCondition> outResult = new LinkedList<>();
 
     public ParserEngine(String query)
     {
@@ -19,12 +27,19 @@ public class ParserEngine
 
     private void next()
     {
+        previousChar = ch;
         if(hasNext())
             this.ch = query.charAt(++id);
         else
         {
             this.ch = null;
         }
+    }
+    private boolean previousCharIsWhiteSpace()
+    {
+        if(!Character.isWhitespace(previousChar))
+            throw new RuntimeException("");
+        return true;
     }
 
     private boolean hasNext()
@@ -39,20 +54,41 @@ public class ParserEngine
         next();
         space();
         defineTypeQuery();
-        if(queryOperatorIsInsertOrUpdate())
-        {
-            expectedOneSpaceChar();
+        if(queryOperatorIsInsertOrUpdate()) {
             space();
+            previousCharIsWhiteSpace();
             expectedVALUES();
-            expectedOneSpaceChar();
             space();
+            previousCharIsWhiteSpace();
             fillTheResultWithValues();
             space();
         }
         space();
+        if(queryOperatorIsSelectOrUpdateOrDelete() && hasNext())
+        {
+            previousCharIsWhiteSpace();
+            expectedWhere();
+            space();
+            previousCharIsWhiteSpace();
+            fillWhere();
+            space();
+        }
+        space();
         if(ch != null)
-            throw new RuntimeException("Ошибка валидации : СТРОКА не валидна (не достигут конец)");
+            throw new RuntimeException("Ошибка валидации. Не достигнуть конец запроса при анализе.");
         return this.result;
+    }
+
+    private void fillConditionIntoWhere()
+    {
+
+    }
+
+    private boolean queryOperatorIsSelectOrUpdateOrDelete()
+    {
+        return this.result.operator.equals(SqlOperator.SELECT)
+                || this.result.operator.equals(SqlOperator.UPDATE)
+                || this.result.operator.equals(SqlOperator.DELETE);
     }
 
     private boolean queryOperatorIsInsertOrUpdate()
@@ -125,11 +161,12 @@ public class ParserEngine
         outWord = true;
     }
 
-    private void expectedOneSpaceChar()
+    private boolean expectedOneSpaceChar()
     {
         if(ch == null || !Character.isWhitespace(ch))
             throw new RuntimeException("Ожидался пробельный символ");
         next();
+        return true;
     }
     private void expectedVALUES()
     {
@@ -196,7 +233,8 @@ public class ParserEngine
         space();
         currentCharCaseInsensitiveEqCharacterAndDoNextChar('=', "Ошибка валидации (после VALUES)");
         space();
-        Operand firstOperand = getOperand();
+        ConstOperand firstOperand = getOperand();
+        space();
         if(!result.valuesMapHasKey(firstColumnName))
             result.addValuesIntoMap(firstColumnName,firstOperand);
         else
@@ -204,21 +242,22 @@ public class ParserEngine
         while(ch != null && ch != 'w')
         {
             space();
-            currentCharCaseInsensitiveEqCharacterAndDoNextChar(',',"");
+            currentCharCaseInsensitiveEqCharacterAndDoNextChar(',',this.id + "");
             space();
             String columnName = columnName();
             space();
             currentCharCaseInsensitiveEqCharacterAndDoNextChar('=', "Ошибка валидации (после VALUES)");
             space();
-            Operand operand = getOperand();
+            ConstOperand operand = getOperand();
             if(!result.valuesMapHasKey(columnName))
                 result.addValuesIntoMap(columnName,operand);
             else
                 throw new RuntimeException("Ошибка валидации. В строке VALUES обнаружены повторяющиеся названия колонок");
+            space();
         }
     }
 
-    private Operand getOperand()
+    private ConstOperand getOperand()
     {
         String valueOperand = null;
         Class operandType = null;
@@ -275,9 +314,9 @@ public class ParserEngine
         }
         else
         {
-            throw new RuntimeException("Ошибка валидации, неверное значение в строке оператора после VALUES (не распознан тип присваемого значения)");
+            throw new RuntimeException("Ошибка валидации,");
         }
-        return new Operand(valueOperand,operandType);
+        return new ConstOperand(valueOperand,operandType);
     }
 
 
@@ -395,5 +434,221 @@ public class ParserEngine
         currentCharCaseInsensitiveEqCharacterAndDoNextChar('e',"Ожидалось 'WHERE'");
         currentCharCaseInsensitiveEqCharacterAndDoNextChar('r',"Ожидалось 'WHERE'");
         currentCharCaseInsensitiveEqCharacterAndDoNextChar('e',"Ожидалось 'WHERE'");
+    }
+
+
+
+
+    private void addElementIntoStack(PartOfCondition partOfCondition)
+    {
+        if(partOfCondition.isConstOperand() || partOfCondition.isColumnName())
+        {
+           outResult.add(partOfCondition);
+        }
+        else if(partOfCondition.isOperator() || partOfCondition.isBooleanOperator())
+        {
+            if(operatorsStack.isEmpty())
+                operatorsStack.push(partOfCondition);
+            else
+            {
+                while(!operatorsStack.isEmpty())
+                {
+                    PartOfCondition a = operatorsStack.pop();
+                    if(a.isOperator() || a.isBooleanOperator())
+                    {
+                        OperatorAbstract opTop = (OperatorAbstract) a;
+                        OperatorAbstract opThis = (OperatorAbstract) partOfCondition;
+                        int resultOfCompare = opTop.compareTo(opThis);
+                        if(resultOfCompare < 0)
+                        {
+                            operatorsStack.push(opTop);
+                        }
+                        else
+                        {
+                            outResult.add(opTop);
+                        }
+                        if(resultOfCompare < 0)
+                            break;
+                    }
+                }
+                operatorsStack.push(partOfCondition);
+            }
+        }
+    }
+    private void fillWhere()
+    {
+        ColumnName firstColumnName = new ColumnName(columnName());
+        space();
+        Operator firstOperator = new Operator(expectedOperator());
+        space();
+        ConstOperand firstConstOperand = getOperand();
+        space();
+        addElementIntoStack(firstColumnName);
+        addElementIntoStack(firstOperator);
+        addElementIntoStack(firstConstOperand);
+        while(hasNext())
+        {
+            space();
+            BoolOperator booleanOperator = expectedBoolOperator();
+            space();
+            ColumnName columnName = new ColumnName(columnName());
+            space();
+            Operator operator = new Operator(expectedOperator());
+            space();
+            ConstOperand constOperand = getOperand();
+            addElementIntoStack(booleanOperator);
+            addElementIntoStack(columnName);
+            addElementIntoStack(operator);
+            addElementIntoStack(constOperand);
+        }
+        space();
+        if(ch != null)
+        {
+            throw new RuntimeException("Ошибка валидации...Ожидался конец запроса после условия WHERE");
+        }
+        while(!operatorsStack.isEmpty())
+        {
+            PartOfCondition partOfCondition = operatorsStack.pop();
+            outResult.add(partOfCondition);
+        }
+        this.result.setPostfixConditionForm(outResult);
+    }
+
+    private BoolOperator expectedBoolOperator()
+    {
+        if(ch == null)
+            throw new RuntimeException("Ошибка валидации. Ожидался оператор (строкак WHERE)");
+        if(ch == 'a' || ch == 'A')
+        {
+            currentCharCaseInsensitiveEqCharacterAndDoNextChar('a',"Ошибка валидации...(строка WHERE)");
+            currentCharCaseInsensitiveEqCharacterAndDoNextChar('n',"Ошибка валидации...(строка WHERE)");
+            currentCharCaseInsensitiveEqCharacterAndDoNextChar('d',"Ошибка валидации...(строка WHERE)");
+            return BoolOperator.getOperatorAnd();
+        }
+        else if(ch == 'o' || ch == 'O')
+        {
+            currentCharCaseInsensitiveEqCharacterAndDoNextChar('o',"Ошибка валидации...(строка WHERE)");
+            currentCharCaseInsensitiveEqCharacterAndDoNextChar('r',"Ошибка валидации...(строка WHERE)");
+            return BoolOperator.getOperatorOr();
+        }
+        else
+        {
+            throw new RuntimeException("Ошибка валидации. Оператор не распознан (AND | OR");
+        }
+    }
+
+    private TypeOperator expectedOperator()
+    {
+        if(ch == null)
+            throw new RuntimeException("Ошибка валидации. Ожидался оператор между операндами (строка WHERE)");
+        if(ch == 'l' || ch == 'L')
+        {
+            expectedLike();
+            return TypeOperator.LIKE;
+        }
+        else if(ch == 'i' || ch == 'I')
+        {
+            expectedILike();
+            return TypeOperator.ILIKE;
+        }
+        else if(ch == '=')
+        {
+            expectedEQ();
+            return TypeOperator.EQ;
+        }
+        else if(ch == '!')
+        {
+            expectedNE();
+            return TypeOperator.NE;
+        }
+        else if(ch == '>')
+        {
+            next();
+            if(ch != null && ch == '=')
+            {
+                next();
+                return TypeOperator.GTE;
+            }
+            else if (ch != null)
+            {
+                next();
+                return TypeOperator.GT;
+            }
+            else
+            {
+                throw new RuntimeException("Ошибка валидации (строка WHERE)");
+            }
+        }
+        else if(ch == '<')
+        {
+            next();
+            if(ch != null && ch == '=')
+            {
+                next();
+                return TypeOperator.LTE;
+
+            }
+            else if(ch != null)
+            {
+                next();
+                return TypeOperator.LT;
+            }
+            else
+                throw new RuntimeException("Ошибка валидации (строка WHERE)");
+        }
+        else
+        {
+            throw new RuntimeException("Ошибка валидации. Оператор на распознан");
+        }
+    }
+
+    private void expectedLike()
+    {
+        currentCharCaseInsensitiveEqCharacterAndDoNextChar('l',"Ошибка валидации в строке WHERE");
+        currentCharCaseInsensitiveEqCharacterAndDoNextChar('i',"Ошибка валидации в строке WHERE");
+        currentCharCaseInsensitiveEqCharacterAndDoNextChar('k',"Ошибка валидации в строке WHERE");
+        currentCharCaseInsensitiveEqCharacterAndDoNextChar('e',"Ошибка валидации в строке WHERE");
+    }
+
+    private void expectedILike()
+    {
+        currentCharCaseInsensitiveEqCharacterAndDoNextChar('i',"Ошибка валидации в строке WHERE");
+        currentCharCaseInsensitiveEqCharacterAndDoNextChar('l',"Ошибка валидации в строке WHERE");
+        currentCharCaseInsensitiveEqCharacterAndDoNextChar('i',"Ошибка валидации в строке WHERE");
+        currentCharCaseInsensitiveEqCharacterAndDoNextChar('k',"Ошибка валидации в строке WHERE");
+        currentCharCaseInsensitiveEqCharacterAndDoNextChar('e',"Ошибка валидации в строке WHERE");
+    }
+
+    private void expectedEQ()
+    {
+        currentCharCaseInsensitiveEqCharacterAndDoNextChar('=', "Ошибка валидации");
+    }
+
+    private void expectedNE()
+    {
+        currentCharCaseInsensitiveEqCharacterAndDoNextChar('!', "Ошибка валидации");
+        currentCharCaseInsensitiveEqCharacterAndDoNextChar('=', "Ошибка валидации");
+    }
+
+    private void expectedGT()
+    {
+        currentCharCaseInsensitiveEqCharacterAndDoNextChar('>', "Ошибка валидации");
+    }
+
+    private void expectedLT()
+    {
+        currentCharCaseInsensitiveEqCharacterAndDoNextChar('<', "Ошибка валидации");
+    }
+
+    private void expectedGTE()
+    {
+        currentCharCaseInsensitiveEqCharacterAndDoNextChar('>', "Ошибка валидации");
+        currentCharCaseInsensitiveEqCharacterAndDoNextChar('=', "Ошибка валидации");
+    }
+
+    private void expectedLTE()
+    {
+        currentCharCaseInsensitiveEqCharacterAndDoNextChar('<', "Ошибка валидации");
+        currentCharCaseInsensitiveEqCharacterAndDoNextChar('=', "Ошибка валидации");
     }
 }
