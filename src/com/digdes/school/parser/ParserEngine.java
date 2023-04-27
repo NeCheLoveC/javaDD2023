@@ -1,7 +1,7 @@
 package com.digdes.school.parser;
 
-import com.digdes.school.d.TypeOperator;
-import com.digdes.school.utils.SqlOperator;
+import com.digdes.school.enum_utils.TypeOperator;
+import com.digdes.school.enum_utils.SqlOperator;
 
 import javax.lang.model.type.NullType;
 import java.util.LinkedList;
@@ -390,10 +390,10 @@ public class ParserEngine
     {
         if(ch == null)
             throw new RuntimeException();
-        next();
         String booleanValue = null;
         if(ch == 't' || ch == 'T')
         {
+            currentCharCaseInsensitiveEqCharacterAndDoNextChar('t',"");
             currentCharCaseInsensitiveEqCharacterAndDoNextChar('r',"");
             currentCharCaseInsensitiveEqCharacterAndDoNextChar('u',"");
             currentCharCaseInsensitiveEqCharacterAndDoNextChar('e',"");
@@ -401,6 +401,7 @@ public class ParserEngine
         }
         else if(ch == 'f' || ch == 'F')
         {
+            currentCharCaseInsensitiveEqCharacterAndDoNextChar('f',"");
             currentCharCaseInsensitiveEqCharacterAndDoNextChar('a',"");
             currentCharCaseInsensitiveEqCharacterAndDoNextChar('l',"");
             currentCharCaseInsensitiveEqCharacterAndDoNextChar('s',"");

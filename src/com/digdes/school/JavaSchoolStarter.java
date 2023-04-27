@@ -1,26 +1,25 @@
 package com.digdes.school;
 
 import com.digdes.school.parser.*;
-import com.digdes.school.sql.FactoryQuery;
-import com.digdes.school.sql.Query;
-import com.digdes.school.utils.SqlOperator;
+import com.digdes.school.enum_utils.SqlOperator;
 
 import javax.lang.model.type.NullType;
 import java.util.*;
 
 public class JavaSchoolStarter implements Table
 {
-    private FactoryQuery factoryQuery;
     //Object - {Long, Double, Boolean, String}
     private List<Map<String, Object>> items;
     private Map<String, Class<? extends Object>> structure;
     public JavaSchoolStarter()
     {
-        factoryQuery = new FactoryQuery();
         items = new ArrayList<Map<String, Object>>();
         structure = new HashMap<>();
         structure.put("id",Long.class);
-        structure.put("name",String.class);
+        structure.put("lastName",String.class);
+        structure.put("age",Long.class);
+        structure.put("cost",Double.class);
+        structure.put("active",Boolean.class);
     }
 
     public List<Map<String, Object>> execute(String rawQuery)
@@ -59,7 +58,7 @@ public class JavaSchoolStarter implements Table
         for(int i = 0;i< itemsForUpdate.size();i++)
         {
             Map<String, Object> item = itemsForUpdate.get(i);
-            Map<String, Object> itemCopy = Map.copyOf(item);
+            Map<String, Object> itemCopy = new HashMap<>(item);;
             for(Map.Entry<String, ConstOperand> value : values.entrySet())
             {
                 if(value.getValue().getObjValue() == null)

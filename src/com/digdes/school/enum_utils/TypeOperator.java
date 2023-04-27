@@ -1,4 +1,4 @@
-package com.digdes.school.d;
+package com.digdes.school.enum_utils;
 
 public enum TypeOperator
 {

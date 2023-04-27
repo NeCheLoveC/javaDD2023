@@ -1,4 +1,4 @@
-package com.digdes.school.utils;
+package com.digdes.school.enum_utils;
 
 public enum SqlOperator
 {

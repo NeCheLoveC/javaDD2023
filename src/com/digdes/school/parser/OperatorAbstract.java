@@ -1,6 +1,6 @@
 package com.digdes.school.parser;
 
-import com.digdes.school.d.TypeBooleanOperator;
+import com.digdes.school.enum_utils.TypeBooleanOperator;
 
 public abstract class OperatorAbstract implements Comparable<OperatorAbstract>, PartOfCondition
 {

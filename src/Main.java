@@ -10,7 +10,9 @@ import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
-        Table table = new JavaSchoolStarter();
+
+        Table starter = new JavaSchoolStarter();
+        /*
         table.execute("insert values 'id' = 0, 'name' = 'Victor'");
         table.execute("insert values 'id' = 1, 'name' = 'Anton'");
         table.execute("insert values 'id' = 2, 'name' = 'Egor'");
@@ -24,7 +26,20 @@ public class Main {
         List<Map<String, Object>> result2 = table.execute("select where 'name' ilike 'v%'");
         List<Map<String, Object>> result3 = table.execute("delete   where  'name' = 'Anton'    ");
         List<Map<String, Object>> result4 = table.execute("select");
-
-
+         */
+        try
+        {
+            //Вставка строки в коллекцию
+            List<Map<String,Object>> result1 = starter.execute("INSERT VALUES 'lastName' = 'Федоров' , 'id'=3, 'age'=40, 'active'=true");
+            //Изменение значения которое выше записывали
+            List<Map<String,Object>> result2 = starter.execute("UPDATE VALUES 'active'=false, 'cost'=10.1 where 'id'=3");
+            //Получение всех данных из коллекции (т.е. в данном примере вернется 1 запись)
+            List<Map<String,Object>> result3 = starter.execute("SELECT");
+            System.out.println();
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
     }
 }

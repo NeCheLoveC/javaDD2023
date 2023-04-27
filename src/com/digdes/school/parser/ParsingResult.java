@@ -1,6 +1,6 @@
 package com.digdes.school.parser;
 
-import com.digdes.school.utils.SqlOperator;
+import com.digdes.school.enum_utils.SqlOperator;
 
 import java.util.HashMap;
 import java.util.LinkedList;
