@@ -1,4 +1,4 @@
-package com.digdes.school.parser;
+package com.digdes.school;
 
 public class ColumnName implements PartOfCondition
 {

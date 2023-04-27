@@ -1,6 +1,4 @@
-package com.digdes.school.parser;
-
-import com.digdes.school.enum_utils.TypeBooleanOperator;
+package com.digdes.school;
 
 public class BoolOperator extends OperatorAbstract implements PartOfCondition
 {

@@ -1,6 +1,4 @@
-package com.digdes.school.parser;
-
-import com.digdes.school.enum_utils.TypeOperator;
+package com.digdes.school;
 
 import java.util.regex.Pattern;
 

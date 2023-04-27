@@ -1,7 +1,4 @@
-package com.digdes.school.parser;
-
-import com.digdes.school.enum_utils.TypeOperator;
-import com.digdes.school.enum_utils.SqlOperator;
+package com.digdes.school;
 
 import javax.lang.model.type.NullType;
 import java.util.LinkedList;

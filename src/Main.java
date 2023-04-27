@@ -1,10 +1,6 @@
 import com.digdes.school.JavaSchoolStarter;
 import com.digdes.school.Table;
-import com.digdes.school.parser.ParserEngine;
-import com.digdes.school.parser.ParsingResult;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 

@@ -1,8 +1,5 @@
 package com.digdes.school;
 
-import com.digdes.school.parser.*;
-import com.digdes.school.enum_utils.SqlOperator;
-
 import javax.lang.model.type.NullType;
 import java.util.*;
 
