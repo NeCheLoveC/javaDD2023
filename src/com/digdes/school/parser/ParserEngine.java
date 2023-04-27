@@ -79,11 +79,6 @@ public class ParserEngine
         return this.result;
     }
 
-    private void fillConditionIntoWhere()
-    {
-
-    }
-
     private boolean queryOperatorIsSelectOrUpdateOrDelete()
     {
         return this.result.operator.equals(SqlOperator.SELECT)
