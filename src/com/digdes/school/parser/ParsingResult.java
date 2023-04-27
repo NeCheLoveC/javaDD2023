@@ -43,4 +43,12 @@ public class ParsingResult
     public void setPostfixConditionForm(List<PartOfCondition> postfixConditionForm) {
         this.postfixConditionForm = postfixConditionForm;
     }
+
+    public SqlOperator getOperator() {
+        return operator;
+    }
+
+    public Map<String, ConstOperand> getValuesIntoOperator() {
+        return valuesIntoOperator;
+    }
 }

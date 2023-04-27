@@ -29,7 +29,22 @@ public class BoolOperator extends OperatorAbstract implements PartOfCondition
         return this.typeOperator;
     }
 
-
+    @Override
+    public boolean execute(ConstOperand firstOperand, ConstOperand secondOperand) {
+        if(!firstOperand.getTypeValue().equals(Boolean.class) || !secondOperand.getTypeValue().equals(Boolean.class))
+            throw new RuntimeException("Ошибка допустимых значений:" + firstOperand.getValue() + typeOperator.toString() + secondOperand.getValue());
+        boolean firstOperandBoolean = Boolean.getBoolean(firstOperand.getValue());
+        boolean secondOperandBoolean = Boolean.getBoolean(secondOperand.getValue());
+        switch (this.typeOperator)
+        {
+            case AND:
+                return firstOperandBoolean && secondOperandBoolean;
+            case OR:
+                return firstOperandBoolean || secondOperandBoolean;
+            default:
+                throw new RuntimeException("Оператор не распознан");
+        }
+    }
 
     @Override
     public boolean isColumnName() {

@@ -32,4 +32,6 @@ public abstract class OperatorAbstract implements Comparable<OperatorAbstract>, 
             throw new RuntimeException("Ошибка сравнения");
     }
 
+    public abstract boolean execute(ConstOperand firstOperand, ConstOperand secondOperand);
+
 }

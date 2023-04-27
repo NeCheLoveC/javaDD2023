@@ -7,4 +7,5 @@ public interface Table
 {
     public List<Map<String, Object>> execute(String query);
     public boolean existColumn(String columnName);
+    public Class getTypeColumnByColumnName(String columnName);
 }
