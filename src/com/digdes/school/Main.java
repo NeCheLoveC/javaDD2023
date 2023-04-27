@@ -1,3 +1,5 @@
+package com.digdes.school;
+
 import com.digdes.school.JavaSchoolStarter;
 import com.digdes.school.Table;
 
